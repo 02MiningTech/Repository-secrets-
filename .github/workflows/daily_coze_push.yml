@@ -1,0 +1,23 @@
+name: Daily Coze Paper Push
+
+on:
+  schedule:
+    # 每天 09:00（北京时间）
+    # GitHub 使用 UTC 时间：09:00 - 8 = 01:00
+    - cron: '0 1 * * *'
+
+  # 允许你手动点按钮测试（强烈建议保留）
+  workflow_dispatch:
+
+jobs:
+  trigger-coze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Coze Workflow
+        run: |
+          curl -X POST \
+            https://api.coze.com/workflows/${{ secrets.COZE_WORKFLOW_ID }}/trigger \
+            -H "Authorization: Bearer ${{ secrets.COZE_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{}'
